@@ -28,10 +28,45 @@ from icc_world_cup) as a
 group by Team_Name 
 order by no_of_matches_won desc;
 
+-- q: Draw match 
+INSERT INTO icc_world_cup values('Eng','India','Draw');
+
+select * from icc_world_cup;
+
+select 
+Team_1 as Team_Name, 
+case when Team_1=Winner then 1 else 0 end as win_flag, 
+case when Winner='Draw' then 1 else 0 end as draw_flag
+from icc_world_cup
+union all 
+select 
+Team_2 as Team_Name,
+case when Team_2=Winner then 1 else 0 end as win_flag, 
+case when Winner='Draw' then 1 else 0 end as draw_flag
+from icc_world_cup;
 
 
-
-
+with CTE as 
+(select 
+Team_1 as Team_Name, 
+case when Team_1=Winner then 1 else 0 end as win_flag, 
+case when Winner='Draw' then 1 else 0 end as draw_flag
+from icc_world_cup
+union all 
+select 
+Team_2 as Team_Name,
+case when Team_2=Winner then 1 else 0 end as win_flag, 
+case when Winner='Draw' then 1 else 0 end as draw_flag
+from icc_world_cup)
+select 
+Team_Name, 
+count(1) as Matches_played, 
+sum(win_flag) as no_of_matches_won, 
+sum(draw_flag) as no_of_draw_matches, 
+count(1) - sum(win_flag) - sum(draw_flag) as no_of_losses
+from CTE
+group by Team_Name
+order by no_of_matches_won desc;
 
 
 
