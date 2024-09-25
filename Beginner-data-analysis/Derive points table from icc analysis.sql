@@ -67,17 +67,3 @@ count(1) - sum(win_flag) - sum(draw_flag) as no_of_losses
 from CTE
 group by Team_Name
 order by no_of_matches_won desc;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
